@@ -78,7 +78,7 @@ export class GenericTable{
             this.table.grantWriteData(this.createLambda);
         }
         if(this.readLambda){
-            this.table.grantWriteData(this.readLambda);
+            this.table.grantReadData(this.readLambda);
         }
         if(this.updateLambda){
             this.table.grantWriteData(this.updateLambda);
@@ -91,7 +91,7 @@ export class GenericTable{
     private createSingleLambda(lambdaName: string): NodejsFunction{
         const lambdaId = `${this.props.tableName}-${lambdaName}`
         return new NodejsFunction(this.stack, lambdaId, {
-            entry: (join(__dirname, '..', 'services', this.props.tableName, `${lambdaName}.ts`)),
+            entry: (join(__dirname, '..', 'service', this.props.tableName, `${lambdaName}.ts`)),
             handler: 'handler',
             functionName: lambdaId,
             environment: {

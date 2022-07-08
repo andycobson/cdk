@@ -1,4 +1,16 @@
+@endpoint = https://xwj6hozhe1.execute-api.us-west-1.amazonaws.com/prod
 
+GET {{endpoint}}/hello/
+###
 
-GET https://xwj6hozhe1.execute-api.us-west-1.amazonaws.com/prod/hello/
+GET {{endpoint}}/axioms?id=b70d4809-3a1c-46fd-a48c-cc3e21631d01
+###
+
+POST {{endpoint}}/axioms/
+Content-Type: application/json
+
+{
+    "location": "San Antonio",
+    "name": "Best Location"
+}
 ###

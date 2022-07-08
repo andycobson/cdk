@@ -19,7 +19,8 @@ export class CdkStack extends Stack {
   private magnetoTable = new GenericTable(this, {
     tableName: 'MagnetoTable',
     primaryKey: 'id',
-    createLambdaPath: 'Create'
+    createLambdaPath: 'Create',
+    readLambdaPath: 'Read'
   })
 
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -42,6 +43,7 @@ export class CdkStack extends Stack {
 
     const magnetoResource = this.api.root.addResource('axioms');
     magnetoResource.addMethod('POST', this.magnetoTable.createLambdaIntegration);
+    magnetoResource.addMethod('GET', this.magnetoTable.readLambdaIntegration)
     
   }
 }
