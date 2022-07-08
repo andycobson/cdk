@@ -20,7 +20,8 @@ export class CdkStack extends Stack {
     tableName: 'MagnetoTable',
     primaryKey: 'id',
     createLambdaPath: 'Create',
-    readLambdaPath: 'Read'
+    readLambdaPath: 'Read',
+    secondaryIndexes: ['location']
   })
 
   constructor(scope: Construct, id: string, props?: StackProps) {
