@@ -1,16 +1,35 @@
 @endpoint = https://xwj6hozhe1.execute-api.us-west-1.amazonaws.com/prod
 
+@token = eyJraWQiOiJrNTRGNHJSdFljTFVjSTBFZWZpcEhrdHRuNjVLSW11YzJ0WU1SekNIeUJRPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJiZDFkYmM2NC05YzdiLTQ1NDktYWRjYy1hZGIyMzk5MTMwNjgiLCJjb2duaXRvOmdyb3VwcyI6WyJhZG1pbnMiXSwiZW1haWxfdmVyaWZpZWQiOnRydWUsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy13ZXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtd2VzdC0xX0RqaG5lWldmSSIsImNvZ25pdG86dXNlcm5hbWUiOiJhc2owMTA4Iiwib3JpZ2luX2p0aSI6IjU4MzA3NGVkLWY0YjAtNDFlMS1iZTFlLTE3N2U5NjNjMDk1OCIsImF1ZCI6IjR1Y29zNGJmdHZndjVnODhpbGQwMWlybGw3IiwiZXZlbnRfaWQiOiJiYzc1ZjhkYS03NWZmLTQ4ODktOGI5Ny05NjdiMGNhYmRmZWUiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTY1NzQ1OTE5NCwiZXhwIjoxNjU3NDYyNzk0LCJpYXQiOjE2NTc0NTkxOTQsImp0aSI6ImNlY2E2MDYzLWEzNDctNDAxNy05NjcxLTk4OTNlNTdmOTM2ZiIsImVtYWlsIjoiYW5kcmV3c2NvdHRqYWNvYnNvbkBnbWFpbC5jb20ifQ.AX06arPlX0uIi3Rz-K9XguI35LnFjs9mmZlI9NzTufOe-RMHx1vJsIP-HMlA9T7mZw-72wOgpv6JzRA3pwLjh46Qh2EqlIQoepXmax0AgL_DI7Z1SQuMZTov8tEKVSIMAVZxbKQY85TaG6Eez0secKFZMb2SPjqp_Nh8Xq5ea3Eq-0lS8lLHlXkSHOY1fKv_fgMdc4rjWiUCfzS07VHIbiGy8PYjW16ZZmOGkDSt54oaOfNs0ShH6HzC0K1tcGU5Xn3FyWmCislule3osDigqCGBxMdlAqCPbaFOeRYTvWPyRBKY-cirFLVMOsMmHQBTuqAQ2yI7o9Rr7KpmqDcsdA
+
 GET {{endpoint}}/hello/
+Authorization: {{token}}
+###
+
+GET {{endpoint}}/axioms/
+###
+
+GET {{endpoint}}/axioms?id=73794984-0b1d-42cf-bfea-32465bb54934
+###
+
+PUT {{endpoint}}/axioms?id=73794984-0b1d-42cf-bfea-32465bb54934
+Content-Type: application/json
+
+{
+    "location": "Crowley"
+}
 ###
 
 GET {{endpoint}}/axioms?id=b70d4809-3a1c-46fd-a48c-cc3e21631d01
 ###
 
+DELETE {{endpoint}}/axioms?id=e426ce9b-ed27-456b-b50e-3a14287c488f
+
 POST {{endpoint}}/axioms/
 Content-Type: application/json
 
 {
-    "location": "San Antonio",
-    "name": "Best Location"
+    "location": "Fort Worth",
+    "name": "Current Town"
 }
 ###

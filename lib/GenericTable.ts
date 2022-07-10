@@ -26,7 +26,7 @@ export class GenericTable{
 
     public createLambdaIntegration: LambdaIntegration;
     public readLambdaIntegration: LambdaIntegration;
-    public udpateLambdaIntegration: LambdaIntegration;
+    public updateLambdaIntegration: LambdaIntegration;
     public deleteLambdaIntegration: LambdaIntegration;
 
     public constructor(stack: Stack, props: TableProps){
@@ -80,7 +80,7 @@ export class GenericTable{
 
         if(this.props.updateLambdaPath){
             this.updateLambda = this.createSingleLambda(this.props.updateLambdaPath);
-            this.udpateLambdaIntegration = new LambdaIntegration(this.updateLambda);
+            this.updateLambdaIntegration = new LambdaIntegration(this.updateLambda);
         }
 
         if(this.props.deleteLambdaPath){

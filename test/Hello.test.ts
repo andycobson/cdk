@@ -1,9 +1,9 @@
-import { handler } from "../service/MagnetoTable/Read";
+import { handler } from "../service/MagnetoTable/Delete";
 import { APIGatewayProxyEvent } from "aws-lambda";
 
 const event: APIGatewayProxyEvent = {
     queryStringParameters: {
-        id: 'b70d4809-3a1c-46fd-a48c-cc3e21631d01'
+        id: '9c581ec5-769f-4176-951b-a55aba6a07a0'
     }
 } as any;
 

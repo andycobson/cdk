@@ -1,10 +1,11 @@
 import { DynamoDB } from 'aws-sdk';
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
+import { MissingFieldError, validateAsAxiomEntry  } from '../Shared/InputValidator';
+import { generateRandomId, getEventBody } from '../Shared/Utils';
 
 const TABLE_NAME = process.env.TABLE_NAME;
 const dbClient = new DynamoDB.DocumentClient();
 
-const { v4: uuidv4 } = require('uuid');
 
 async function handler(event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> {
     const result: APIGatewayProxyResult = {
@@ -12,26 +13,23 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
         body: 'Hello from Dynamodb'
     }
 
-    const item = typeof event.body == 'object'? event.body: JSON.parse(event.body);
-    item.id = uuidv4();
-
-    // const item = {
-    //     id: v4()
-    // }
-
     try{
+        const item = getEventBody(event);
+        item.id = generateRandomId();
+        validateAsAxiomEntry(item);
         await dbClient.put({
             TableName: TABLE_NAME!,
             Item: item
-        }).promise()
+        }).promise();
+        result.body = JSON.stringify(`Created Item with id: ${item.id}`);
     } catch (error) {
         let message;
+        if (error instanceof MissingFieldError) result.statusCode = 403;
         if(error instanceof Error) message = error.message;
         else message = String(error)
+        
         result.body = message;
     }
-
-    result.body = JSON.stringify(`Created Item with id: ${item.id}`);
 
     return result;
 }
