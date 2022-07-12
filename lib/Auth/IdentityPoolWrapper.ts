@@ -1,5 +1,6 @@
 import { CfnOutput } from "aws-cdk-lib";
 import { UserPool, UserPoolClient, CfnIdentityPool } from "aws-cdk-lib/aws-cognito";
+import { Effect, FederatedPrincipal, PolicyStatement, Role } from "aws-cdk-lib/aws-iam";
 import { Construct } from "constructs";
 
 
@@ -10,6 +11,9 @@ export class IdentityPoolWrapper {
     private userPool: UserPool;
     private userPoolClient: UserPoolClient;
     private identityPool: CfnIdentityPool;
+    private authenticatedRole: Role;
+    private unauthenticatedRole: Role;
+    private adminRole: Role;
 
     constructor(scope: Construct, userPool: UserPool, userPoolClient: UserPoolClient){
         this.scope = scope;
@@ -20,6 +24,7 @@ export class IdentityPoolWrapper {
 
     private initialize(){
         this.initializeIdentityPool();
+        this.initializeRoles();
     }
 
     private initializeIdentityPool(){
@@ -30,9 +35,60 @@ export class IdentityPoolWrapper {
                 providerName: this.userPool.userPoolProviderName
             }]
         });
-        new CfnOutput(this.scope, 'IdenityPoolId', {
+        new CfnOutput(this.scope, 'IdentityPoolId', {
             value: this.identityPool.ref
-        })
+        });
+
+    }
+
+    private initializeRoles(){
+        this.authenticatedRole = new Role(this.scope, 'CognitoDefaultAuthenticatedRole', {
+            assumedBy: new FederatedPrincipal('cognito-identity.amazonaws.com', {
+                StringEquals: {
+                    'cognito-identity.amazonaws.com:aud': this.identityPool.ref
+                },
+                'ForAnyvalue:StringLike': {
+                    'cognito-identity.amazonaws.com:amr': 'authenticated'
+                }
+            },
+                'sts:AssumeRoleWithWebIdentity'
+            )
+        });
+
+
+        this.unauthenticatedRole = new Role(this.scope, 'CognitoDefaultUnAuthenticatedRole', {
+            assumedBy: new FederatedPrincipal('cognito-identity.amazonaws.com', {
+                StringEquals: {
+                    'cognito-identity.amazonaws.com:aud': this.identityPool.ref
+                },
+                'ForAnyvalue:StringLike': {
+                    'cognito-identity.amazonaws.com:amr': 'unauthenticated'
+                }
+            },
+                'sts:AssumeRoleWithWebIdentity'
+            )
+        });
+
+        this.adminRole = new Role(this.scope, 'CognitoDefaultAuthenticatedRole', {
+            assumedBy: new FederatedPrincipal('cognito-identity.amazonaws.com', {
+                StringEquals: {
+                    'cognito-identity.amazonaws.com:aud': this.identityPool.ref
+                },
+                'ForAnyvalue:StringLike': {
+                    'cognito-identity.amazonaws.com:amr': 'authenticated'
+                }
+            },
+                'sts:AssumeRoleWithWebIdentity'
+            )
+        });
+
+        this.adminRole.addToPolicy(new PolicyStatement({
+            effect: Effect.ALLOW,
+            actions: [
+                's3.ListAllMyBuckets'
+            ],
+            resources: ['*']
+        }))
 
     }
 

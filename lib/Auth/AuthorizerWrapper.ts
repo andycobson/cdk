@@ -4,8 +4,6 @@ import { UserPool, UserPoolClient, CfnUserPoolGroup } from "aws-cdk-lib/aws-cogn
 import { Construct } from "constructs";
 
 
-
-
 export class AuthorizerWrapper {
 
     private scope: Construct;
