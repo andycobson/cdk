@@ -13,7 +13,7 @@ export class IdentityPoolWrapper {
     
     private identityPool: CfnIdentityPool;
     private authenticatedRole: Role;
-    private unauthenticatedRole: Role;
+    private unAuthenticatedRole: Role;
     public adminRole: Role;
 
     constructor(scope: Construct, userPool: UserPool, userPoolClient: UserPoolClient){
@@ -49,7 +49,7 @@ export class IdentityPoolWrapper {
                 StringEquals: {
                     'cognito-identity.amazonaws.com:aud': this.identityPool.ref
                 },
-                'ForAnyvalue:StringLike': {
+                'ForAnyValue:StringLike': {
                     'cognito-identity.amazonaws.com:amr': 'authenticated'
                 }
             },
@@ -58,12 +58,12 @@ export class IdentityPoolWrapper {
         });
 
 
-        this.unauthenticatedRole = new Role(this.scope, 'CognitoDefaultUnAuthenticatedRole', {
+        this.unAuthenticatedRole = new Role(this.scope, 'CognitoDefaultUnAuthenticatedRole', {
             assumedBy: new FederatedPrincipal('cognito-identity.amazonaws.com', {
                 StringEquals: {
                     'cognito-identity.amazonaws.com:aud': this.identityPool.ref
                 },
-                'ForAnyvalue:StringLike': {
+                'ForAnyValue:StringLike': {
                     'cognito-identity.amazonaws.com:amr': 'unauthenticated'
                 }
             },
@@ -76,7 +76,7 @@ export class IdentityPoolWrapper {
                 StringEquals: {
                     'cognito-identity.amazonaws.com:aud': this.identityPool.ref
                 },
-                'ForAnyvalue:StringLike': {
+                'ForAnyValue:StringLike': {
                     'cognito-identity.amazonaws.com:amr': 'authenticated'
                 }
             },
@@ -98,7 +98,7 @@ export class IdentityPoolWrapper {
             identityPoolId: this.identityPool.ref,
             roles: {
                 'authenticated': this.authenticatedRole.roleArn,
-                'unauthenticated': this.unauthenticatedRole.roleArn
+                'unauthenticated': this.unAuthenticatedRole.roleArn
             },
             roleMappings: {
                 adminsMapping: {

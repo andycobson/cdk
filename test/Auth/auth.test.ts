@@ -11,3 +11,5 @@ async function callStuff() {
     const someCreds = AWS.config.credentials;
     const a = 5;
 }
+
+callStuff();
